@@ -1,0 +1,9 @@
+{
+    "name": "Pole Mapper",
+    "short_name": "PoleMap",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2c7",
+    "icons": []
+}

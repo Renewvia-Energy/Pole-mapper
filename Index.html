@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pole Mapper</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="FileSaver.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Pole Mapping Tool</h2>
+      <label>Project Name:</label>
+      <!-- <input type="text" id="projectName" placeholder="Enter project name" /> -->
+      <select id="projectName">
+        <option value="">-- Select Project --</option>
+        <option value="Akipelai">Akipelai</option>
+        <option value="Balep">Balep</option>
+        <option value="Bendeghe-Afi">Bendeghe-Afi</option>
+        <option value="Ekong Anaku">Ekong Anaku</option>
+        <option value="Emakalakala">Emakalakala</option>
+        <option value="Emereoke">Emereoke</option>
+        <option value="Kakuma 3 - Okapi">Kakuma 3 - Okapi</option>
+        <option value="Kalobeyei Settlement">Kalobeyei Settlement</option>
+        <option value="Kalobeyei Town">Kalobeyei Town</option>
+        <option value="Kangitan Kori">Kangitan Kori</option>
+        <option value="Kapelbok">Kapelbok</option>
+        <option value="Katiko">Katiko</option>
+        <option value="Locheremoit">Locheremoit</option>
+        <option value="Lomekwi">Lomekwi</option>
+        <option value="Lorengelup">Lorengelup</option>
+        <option value="Nakukulas">Nakukulas</option>
+        <option value="Ndeda">Ndeda</option>
+        <option value="Ngurunit">Ngurunit</option>
+        <option value="Olkiramatian">Olkiramatian</option>
+        <option value="Oloibiri">Oloibiri</option>
+        <option value="Opu">Opu</option>
+        <option value="Oyamo">Oyamo</option>
+        <option value="Ozuzu">Ozuzu</option>
+        <option value="Ringiti">Ringiti</option>
+      </select>
+
+      <div id="formArea">
+      <div class="number">
+          <label>Pole Number:</label>
+        <input type="text" id="poleNumber" />
+      </div>
+
+        <label>Source Pole:</label>
+        <input type="text" id="sourcePole" />
+
+        <label>Destination Pole(s):</label>
+        <input type="text" id="destinationPole" />
+
+        <label>Customers IDs:</label>
+        <input type="text" id="customersID" />
+
+        <div class="locationRow">
+          <div>
+            <label>Latitude:</label>
+            <input type="text" id="latitude" readonly />
+          </div>
+          <div>
+            <label>Longitude:</label>
+            <input type="text" id="longitude" readonly />
+          </div>
+        </div>
+        <div class="addPole">
+          <button onclick="getLocation()">Get Location</button>
+
+          <button onclick="addPole()">Add Pole</button>
+        </div>
+      </div>
+
+      <h3>Poles List</h3>
+      <table id="polesTable" border="1">
+        <thead>
+          <tr>
+            <th>Pole Number</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Customers</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <button onclick="exportCSV()">Export CSV</button>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
