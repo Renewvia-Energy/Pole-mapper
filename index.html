@@ -41,20 +41,29 @@
         <option value="Ringiti">Ringiti</option>
       </select>
 
-      <div id="formArea">
-      <div class="number">
-          <label>Pole Number:</label><span>Pole We are starting from</span>
-        <input type="text" id="poleNumber" />
-      </div>
+      <!-- the following is the form  -->
+      <!-- wrap inputs in a form so HTML validation runs on submit -->
+      <form id="poleForm" onsubmit="addPole(event)">
+        <div class="number">
+          <label>Pole Number:</label>
+          <input type="text" id="poleNumber" />
+        </div>
 
-        <label>Source Pole:</label>
+        <label>Source Pole:</label><span>Pole We are starting from</span>
         <input type="text" id="sourcePole" />
 
-        <label>Destination Pole(s):</label><span>Pole(s) Linked to this one</span>
+        <label>Destination Pole(s):</label
+        ><span>Pole(s) Linked to this one</span>
         <input type="text" id="destinationPole" />
 
         <label>Customers IDs:</label>
-        <input type="text" id="customersID" />
+        <input
+          type="text"
+          id="customersID"
+          name="customersID"
+          pattern="^[A-Za-z0-9]{6}(,[A-Za-z0-9]{6})*$"
+          title="Enter one or more 6-character alphanumeric IDs separated by commas with no spaces. Example: ND4567,ND3456"
+        />
 
         <div class="locationRow">
           <div>
@@ -66,12 +75,15 @@
             <input type="text" id="longitude" readonly />
           </div>
         </div>
-        <div class="addPole">
-          <button onclick="getLocation()">Get Location</button>
 
-          <button onclick="addPole()">Add Pole</button>
+        <div class="addPole">
+          <button type="button" onclick="getLocation()">Get Location</button>
+          <!-- submit triggers browser validation and the onsubmit handler -->
+          <button type="submit">Add Pole</button>
         </div>
-      </div>
+      </form>
+
+      <!-- the end of the form -->
 
       <h3>Poles List</h3>
       <table id="polesTable" border="1">
@@ -89,6 +101,17 @@
       </table>
 
       <button onclick="exportCSV()">Export CSV</button>
+      <button class="deletebtn" onclick="deleteTable()" style="background: red; ">Delete Table</button>
+
+      <h3>Notes</h3>
+      <ul>
+        <li>Each pole can only have 1 source.</li>
+        <li>Each pole can have one or more destination poles.</li>
+        <li>
+          You must expect a 60 second delay after clicking the 'Get Location'
+          Button
+        </li>
+      </ul>
     </div>
 
     <script src="app.js"></script>
