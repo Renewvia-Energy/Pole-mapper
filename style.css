@@ -64,3 +64,8 @@ table {
 .number{
    width: 100%;
 }
+
+.deletebtn{
+    background: red;
+
+}
