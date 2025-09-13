@@ -48,8 +48,8 @@ function addPole(event) {
         return; // stop here, form is NOT cleared
     }
 
-    // Regex validators
-    const intRegex = /^[0-9]+$/; 
+    // Regex validators  /^[0-9]+$/
+    const intRegex = ^[0-9]+(,[0-9]+)*$; 
     const custRegex = /^[A-Za-z0-9]{6}(,[A-Za-z0-9]{6})*$/; 
 
     // Validate Pole Number (required)
