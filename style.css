@@ -74,3 +74,10 @@ input:invalid {
   border: 2px solid red;
   background-color: #ffe6e6;
 }
+
+/* Highlight invalid fields */
+input.custom-invalid {
+  border: 2px solid red !important;
+  background-color: #ffe6e6;
+}
+

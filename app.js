@@ -25,7 +25,7 @@ function getLocation() {
             }, (err) => {
                 alert("Error getting location: " + err.message);
             });
-        }, 120000); // 120 seconds
+        }, 10); // 120 seconds 120000
     } else {
         alert("Geolocation not supported.");
     }
@@ -38,8 +38,14 @@ function addPole(event) {
     let poleNumber = document.getElementById("poleNumber").value.trim();
     let lat = document.getElementById("latitude").value;
     let lon = document.getElementById("longitude").value;
-    let source = document.getElementById("sourcePole").value.trim();
-    let destination = document.getElementById("destinationPole").value.trim();
+    // let source = document.getElementById("sourcePole").value.trim();
+    // let destination = document.getElementById("destinationPole").value.trim();
+    let sourceEl = document.getElementById("sourcePole");
+    let destEl = document.getElementById("destinationPole");
+
+    let source = sourceEl.value.trim();
+    let destination = destEl.value.trim()
+
     let customers = document.getElementById("customersID").value.trim();
 
     // Required fields check
@@ -80,6 +86,30 @@ function addPole(event) {
             "Example: ND4567,ND3456"
         );
         return;
+    }
+
+    //  // validation: source and destination must not overlap
+    // if (source && destination) {
+    //     let sourceVal = source.trim();
+    //     let destList = destination.split(",").map(d => d.trim());
+
+    //     if (destList.includes(sourceVal)) {
+    //         alert("Source pole cannot also appear in Destination pole(s).");
+    //         return;
+    //     }
+    // }
+
+     // Overlap validation
+    if (source && destination) {
+        let destList = destination.split(",").map(d => d.trim());
+        let sourceVal = source.trim();
+        if (destList.includes(sourceVal)) {
+            // Mark both fields invalid
+            sourceEl.classList.add("custom-invalid");
+            destEl.classList.add("custom-invalid");
+            alert("Source pole cannot also appear in Destination pole(s).");
+            return;
+        }
     }
 
     // Warn if any optional field is missing
@@ -198,3 +228,10 @@ function deleteTable(){
 }
 
 renderTable();
+
+["sourcePole", "destinationPole"].forEach(id => {
+    document.getElementById(id).addEventListener("input", (e) => {
+        e.target.classList.remove("custom-invalid");
+    });
+});
+
