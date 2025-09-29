@@ -46,15 +46,15 @@
       <form id="poleForm" onsubmit="addPole(event)">
         <div class="number">
           <label>Pole Number:</label>
-          <input type="text" id="poleNumber" />
+          <input type="text" id="poleNumber" required pattern="^[0-9]*$"/>
         </div>
 
         <label>Source Pole:</label><span>Pole We are starting from</span>
-        <input type="text" id="sourcePole" />
+        <input type="text" id="sourcePole"  required pattern="^[0-9]*$"/>
 
         <label>Destination Pole(s):</label
         ><span>Pole(s) Linked to this one</span>
-        <input type="text" id="destinationPole" />
+        <input type="text" id="destinationPole" required pattern="^[0-9]+(,[0-9]+)*$"/>
 
         <label>Customers IDs:</label>
         <input
