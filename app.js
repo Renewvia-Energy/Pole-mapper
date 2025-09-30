@@ -15,7 +15,7 @@ let poles = JSON.parse(localStorage.getItem("poles") || "[]");
 
 function getLocation() {
     if (navigator.geolocation) {
-        alert("Waiting 60 seconds for GPS to stabilize...");
+        alert("Waiting 20 seconds for GPS to stabilize...");
 
         setTimeout(() => {
             navigator.geolocation.getCurrentPosition((pos) => {
@@ -25,7 +25,7 @@ function getLocation() {
             }, (err) => {
                 alert("Error getting location: " + err.message);
             });
-        }, 120000); // 120 seconds 120000
+        }, 20000); // 120 seconds 120000
     } else {
         alert("Geolocation not supported.");
     }
