@@ -25,7 +25,7 @@ function getLocation() {
             }, (err) => {
                 alert("Error getting location: " + err.message);
             });
-        }, 120000); // 120 seconds 120000
+        }, 60000); // 120 seconds 120000
     } else {
         alert("Geolocation not supported.");
     }
