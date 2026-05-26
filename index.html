@@ -10,9 +10,10 @@
   </head>
   <body>
     <div class="container">
-      <h2>Pole Mapping Tool</h2>
-      <label>Project Name:</label>
-      <!-- <input type="text" id="projectName" placeholder="Enter project name" /> -->
+      <h2>Pole Mapper</h2>
+
+      <!-- Project selector -->
+      <label for="projectName">Project Name:</label>
       <select id="projectName">
         <option value="">-- Select Project --</option>
         <option value="Akipelai">Akipelai</option>
@@ -41,76 +42,139 @@
         <option value="Ringiti">Ringiti</option>
       </select>
 
-      <!-- the following is the form  -->
-      <!-- wrap inputs in a form so HTML validation runs on submit -->
-      <form id="poleForm" onsubmit="addPole(event)">
-        <div class="number">
-          <label>Pole Number:</label>
-          <input type="text" id="poleNumber" required pattern="^[0-9]*$"/>
-        </div>
+      <!-- ══════════════════════════════════════════════════ -->
+      <!--  SECTION 1 — SPANS                                -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <h3 class="section-title">1. Span / Line Data</h3>
+      <p class="section-desc">Record each cable run between two poles.</p>
 
-        <label>Source Pole:</label><span>Pole We are starting from</span>
-        <input type="text" id="sourcePole"  required pattern="^[0-9]*$"/>
+      <form id="spanForm" onsubmit="addSpan(event)">
 
-        <label>Destination Pole(s):</label
-        ><span>Pole(s) Linked to this one</span>
-        <input type="text" id="destinationPole" pattern="^[0-9]+(,[0-9]+)*$"/>
-
-        <label>Customers IDs:</label>
-        <input
-          type="text"
-          id="customersID"
-          name="customersID"
-          pattern="^[A-Za-z0-9]{6}(,[A-Za-z0-9]{6})*$"
-          title="Enter one or more 6-character alphanumeric IDs separated by commas with no spaces. Example: ND4567,ND3456"
-        />
-
-        <div class="locationRow">
-          <div>
-            <label>Latitude:</label>
-            <input type="text" id="latitude" readonly />
+        <div class="field-row">
+          <div class="field">
+            <label for="spanSource">Source Pole <span class="req">*</span></label>
+            <input type="text" id="spanSource" placeholder="e.g. 1"
+                   inputmode="numeric" pattern="^[0-9]+$" required />
           </div>
-          <div>
-            <label>Longitude:</label>
-            <input type="text" id="longitude" readonly />
+          <div class="field">
+            <label for="spanDest">Destination Pole <span class="req">*</span></label>
+            <input type="text" id="spanDest" placeholder="e.g. 2"
+                   inputmode="numeric" pattern="^[0-9]+$" required />
           </div>
         </div>
 
-        <div class="addPole">
-          <button type="button" onclick="getLocation()">Get Location</button>
-          <!-- submit triggers browser validation and the onsubmit handler -->
-          <button type="submit">Add Pole</button>
+        <div class="field">
+          <label for="spanDistance">Distance (km) <span class="req">*</span></label>
+          <input type="text" id="spanDistance" placeholder="e.g. 27.5"
+                 inputmode="decimal" pattern="^\d+(\.\d+)?$" required />
+        </div>
+
+        <div class="field" id="spanPhase">
+          <label>Phase Between <span class="req">*</span></label>
+          <div class="phase-group">
+            <label class="phase-label red-phase">
+              <input type="checkbox" value="RED" /> RED
+            </label>
+            <label class="phase-label yellow-phase">
+              <input type="checkbox" value="YELLOW" /> YELLOW
+            </label>
+            <label class="phase-label blue-phase">
+              <input type="checkbox" value="BLUE" /> BLUE
+            </label>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" onclick="clearSpanForm()">Clear</button>
+          <button type="submit" class="btn-primary">Add Span</button>
         </div>
       </form>
 
-      <!-- the end of the form -->
+      <h4>Spans List</h4>
+      <div class="table-wrap">
+        <table id="spansTable">
+          <thead>
+            <tr>
+              <th>Distance (km)</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Phase Between</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-      <h3>Poles List</h3>
-      <table id="polesTable" border="1">
-        <thead>
-          <tr>
-            <th>Pole Number</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Source</th>
-            <th>Destination</th>
-            <th>Customers</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <!-- ══════════════════════════════════════════════════ -->
+      <!--  SECTION 2 — METERS                               -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <h3 class="section-title">2. Customer Meter Data</h3>
+      <p class="section-desc">Record each customer meter connected to the network.</p>
 
-      <button onclick="exportCSV()">Export CSV</button>
-      <button class="deletebtn" onclick="deleteTable()" style="background: red; ">Delete Table</button>
+      <form id="meterForm" onsubmit="addMeter(event)">
+
+        <div class="field-row">
+          <div class="field">
+            <label for="meterNumber">Meter Number <span class="req">*</span></label>
+            <input type="text" id="meterNumber" placeholder="e.g. 550189"
+                   inputmode="text" maxlength="6"
+                   pattern="^[A-Za-z0-9]{6}$"
+                   title="6-character alphanumeric meter number (e.g. 550189 or AB1234)" required />
+          </div>
+          <div class="field">
+            <label for="meterPole">Pole Number <span class="req">*</span></label>
+            <input type="text" id="meterPole" placeholder="e.g. 9"
+                   inputmode="numeric" pattern="^[0-9]+$" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="meterPhase">Phase <span class="req">*</span></label>
+          <select id="meterPhase" required>
+            <option value="">-- Select Phase --</option>
+            <option value="Red">Red</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Blue">Blue</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" onclick="clearMeterForm()">Clear</button>
+          <button type="submit" class="btn-primary">Add Meter</button>
+        </div>
+      </form>
+
+      <h4>Meters List</h4>
+      <div class="table-wrap">
+        <table id="metersTable">
+          <thead>
+            <tr>
+              <th>Meter Number</th>
+              <th>Pole Number</th>
+              <th>Phase</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ -->
+      <!--  ACTIONS                                          -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <div class="action-row">
+        <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+        <button class="btn-danger" onclick="deleteAllData()">🗑 Delete All Data</button>
+      </div>
 
       <h3>Notes</h3>
       <ul>
-        <li>Each pole can only have 1 source.</li>
+        <li>Each span between two poles can only be entered once (Pole X → Pole Y and Pole Y → Pole X are treated as the same span).</li>
         <li>Each pole can have one or more destination poles.</li>
-        <li>
-          You must expect a 60 second delay after clicking the 'Get Location'
-          Button
-        </li>
+        <li>Meter numbers must be exactly 6 alphanumeric characters (letters and/or digits, e.g. 550189 or AB1234).</li>
+        <li>Duplicate meter numbers are not allowed.</li>
+        <li>Data is saved locally on this device until exported or deleted.</li>
       </ul>
     </div>
 
